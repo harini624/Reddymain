@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login | Reddy's Real Estate
+{% endblock %}
+
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            R
+        </div>
+
+        <h1>
+            Welcome back
+        </h1>
+
+        <p>
+            Login to your Reddy's Real Estate account
+        </p>
+
+
+        <form method="POST">
+
+        {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Create Account
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

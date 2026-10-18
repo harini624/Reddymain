@@ -1,0 +1,641 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register | Reddy's Real Estate
+{% endblock %}
+
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        background: #f5f7f6;
+    }
+
+    .register-page {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 20px;
+        position: relative;
+        overflow: hidden;
+
+        background:
+            linear-gradient(
+                120deg,
+                rgba(8, 34, 29, 0.96),
+                rgba(17, 70, 58, 0.88),
+                rgba(8, 34, 29, 0.82)
+            ),
+            url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=85");
+
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Decorative circles */
+
+    .register-page::before {
+        content: "";
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        border-radius: 50%;
+        background: rgba(210, 170, 80, 0.12);
+        top: -180px;
+        right: -120px;
+    }
+
+    .register-page::after {
+        content: "";
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        bottom: -150px;
+        left: -100px;
+    }
+
+
+    .register-wrapper {
+        width: 100%;
+        max-width: 1100px;
+        display: grid;
+        grid-template-columns: 1fr 470px;
+        position: relative;
+        z-index: 2;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+
+    /* LEFT SIDE */
+
+    .register-intro {
+        padding: 60px 55px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        background:
+            linear-gradient(
+                rgba(5, 28, 24, 0.55),
+                rgba(5, 28, 24, 0.70)
+            );
+    }
+
+    .brand-small {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 35px;
+    }
+
+    .brand-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #d4af61;
+        color: #173b32;
+
+        font-family: 'Playfair Display', serif;
+        font-size: 25px;
+        font-weight: 700;
+
+        box-shadow: 0 8px 20px rgba(0,0,0,0.20);
+    }
+
+    .brand-name {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+    }
+
+    .register-intro h2 {
+        margin: 0 0 20px;
+
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(36px, 4vw, 56px);
+        line-height: 1.1;
+        font-weight: 700;
+    }
+
+    .register-intro h2 span {
+        color: #d8b96a;
+    }
+
+    .intro-text {
+        max-width: 470px;
+        color: rgba(255,255,255,0.82);
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 35px;
+    }
+
+
+    .benefits {
+        display: grid;
+        gap: 17px;
+    }
+
+    .benefit {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: rgba(255,255,255,0.92);
+        font-size: 14px;
+    }
+
+    .benefit-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(216,185,106,0.15);
+        border: 1px solid rgba(216,185,106,0.35);
+
+        color: #e2c77e;
+        font-size: 15px;
+    }
+
+
+    /* RIGHT FORM */
+
+    .register-card {
+        background: rgba(255,255,255,0.98);
+        padding: 45px 42px;
+    }
+
+    .form-heading {
+        margin-bottom: 30px;
+    }
+
+    .form-heading h1 {
+        margin: 0 0 8px;
+
+        color: #183c33;
+
+        font-family: 'Playfair Display', serif;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .form-heading p {
+        margin: 0;
+        color: #7b8582;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #263d38;
+
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+
+        padding: 14px 15px;
+
+        border: 1px solid #dfe5e2;
+        border-radius: 11px;
+
+        outline: none;
+
+        background: #f8faf9;
+
+        color: #243a35;
+
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+
+        transition: all 0.25s ease;
+    }
+
+
+    .form-group input:hover,
+    .form-group select:hover,
+    .form-group textarea:hover {
+        border-color: #b9c9c4;
+    }
+
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        background: #ffffff;
+
+        border-color: #1d6555;
+
+        box-shadow:
+            0 0 0 4px rgba(29,101,85,0.10);
+    }
+
+
+    .field-error {
+        margin-top: 7px;
+
+        color: #c0392b;
+
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .field-error ul {
+        margin: 0;
+        padding-left: 18px;
+    }
+
+
+    .auth-button {
+        width: 100%;
+
+        border: none;
+        border-radius: 11px;
+
+        padding: 15px 20px;
+
+        margin-top: 8px;
+
+        background: linear-gradient(
+            135deg,
+            #174d40,
+            #236b59
+        );
+
+        color: white;
+
+        font-family: 'DM Sans', sans-serif;
+
+        font-size: 15px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px rgba(23,77,64,0.22);
+
+        transition: all 0.3s ease;
+    }
+
+    .auth-button:hover {
+        transform: translateY(-2px);
+
+        background: linear-gradient(
+            135deg,
+            #123e34,
+            #1d5c4d
+        );
+
+        box-shadow:
+            0 14px 30px rgba(23,77,64,0.30);
+    }
+
+    .auth-button:active {
+        transform: translateY(0);
+    }
+
+
+    .auth-footer {
+        text-align: center;
+
+        margin: 25px 0 0;
+
+        color: #7a8581;
+
+        font-size: 13px;
+    }
+
+    .auth-footer a {
+        color: #1b6554;
+
+        font-weight: 700;
+
+        text-decoration: none;
+
+        margin-left: 4px;
+    }
+
+    .auth-footer a:hover {
+        color: #c09643;
+        text-decoration: underline;
+    }
+
+
+    .secure-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+
+        margin-top: 22px;
+
+        color: #98a19f;
+
+        font-size: 11px;
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+
+        .register-wrapper {
+            grid-template-columns: 1fr;
+            max-width: 560px;
+        }
+
+        .register-intro {
+            padding: 40px 35px;
+        }
+
+        .register-intro h2 {
+            font-size: 40px;
+        }
+
+        .register-card {
+            padding: 40px 35px;
+        }
+    }
+
+
+    @media (max-width: 500px) {
+
+        .register-page {
+            padding: 25px 14px;
+        }
+
+        .register-intro {
+            padding: 35px 25px;
+        }
+
+        .register-intro h2 {
+            font-size: 34px;
+        }
+
+        .intro-text {
+            font-size: 14px;
+        }
+
+        .register-card {
+            padding: 32px 24px;
+        }
+
+        .form-heading h1 {
+            font-size: 28px;
+        }
+
+        .benefits {
+            gap: 12px;
+        }
+    }
+    .password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+}
+
+</style>
+
+<script>
+function togglePassword(fieldId, icon) {
+    const passwordField = document.getElementById(fieldId);
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.textContent = "👀";
+    } else {
+        passwordField.type = "password";
+        icon.textContent = "👁";
+    }
+}
+</script>
+
+<div class="register-page">
+
+
+<div class="register-wrapper">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="register-intro">
+
+        <div class="brand-small">
+
+            <div class="brand-icon">
+                R
+            </div>
+
+            <div class="brand-name">
+                Reddy's Real Estate
+            </div>
+
+        </div>
+
+
+        <h2>
+            Find a place<br>
+            you can call <span>home.</span>
+        </h2>
+
+
+        <p class="intro-text">
+            Create your account and discover beautiful properties,
+            premium homes and investment opportunities with
+            Reddy's Real Estate.
+        </p>
+
+
+        <div class="benefits">
+
+            <div class="benefit">
+
+                <div class="benefit-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Explore verified properties
+                </span>
+
+            </div>
+
+
+            <div class="benefit">
+
+                <div class="benefit-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Save your favourite properties
+                </span>
+
+            </div>
+
+
+            <div class="benefit">
+
+                <div class="benefit-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Connect with property experts
+                </span>
+
+            </div>
+
+
+            <div class="benefit">
+
+                <div class="benefit-icon">
+                    ✓
+                </div>
+
+                <span>
+                    Get personalized property updates
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="register-card">
+
+        <div class="form-heading">
+
+            <h1>
+                Create your account
+            </h1>
+
+            <p>
+                Start your real-estate journey with us.
+                It only takes a minute.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+        {% csrf_token %}
+
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                        {% if 'password' in field.name %}
+                            <div class="password-wrapper">
+                                <span class="toggle-password" onclick="togglePassword('{{ field.id_for_label }}', this)">👁</span>
+                            </div>
+                        {% endif %}
+                    
+                    </label>
+
+
+                    {{ field }}
+
+
+                    {% if field.errors %}
+
+                        <div class="field-error">
+                            {{ field.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <button
+                type="submit"
+                class="auth-button"
+            >
+                Create My Account
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Login here
+            </a>
+
+        </p>
+
+
+        <div class="secure-note">
+
+            🔒 Your information is securely protected
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

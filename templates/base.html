@@ -1,0 +1,289 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            Reddy's Real Estate
+        {% endblock %}
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
+       
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/cinematic.css' %}">
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+<link rel="stylesheet" href="{% static 'css/scroll-effects.css' %}">
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+<link rel="stylesheet" href="{% static 'css/mobile-fixes.css' %}">
+
+<script src="{% static 'js/animation.js' %}" defer></script>
+<script src="{% static 'js/scroll-effects.js' %}" defer></script>
+<script src="{% static 'js/mobile-nav.js' %}" defer></script>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="main-navbar">
+
+    <div class="nav-container">
+
+
+        <!-- LOGO -->
+
+        <a
+            href="{% url 'home' %}"
+            class="nav-logo"
+        >
+
+             <img src="{% static 'images/logo.png' %}" alt="Reddy's Real Estate Logo">
+        </a>
+
+
+        <!-- MOBILE MENU TOGGLE: visible only on mobile; desktop navigation is unchanged -->
+        <button
+            class="mobile-nav-toggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-controls="site-navigation-links"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- NAVIGATION LINKS -->
+        <div class="nav-links" id="site-navigation-links">
+
+
+            <!-- HOME -->
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            <!-- PROPERTIES -->
+
+            <a href="{% url 'properties' %}">
+                Properties
+            </a>
+
+
+            <!-- BUY -->
+
+            <a href="{% url 'properties' %}?purpose=Sale">
+                Buy
+            </a>
+
+
+            <!-- RENT -->
+
+            <a href="{% url 'properties' %}?purpose=Rent">
+                Rent
+            </a>
+
+            <!-- USER LOGIN STATUS -->
+
+            {% if user.is_authenticated %}
+
+
+                <!-- USERNAME -->
+             <a href="{% url 'dashboard' %}" class="nav-add-property nav-user">Profile</a>
+            
+                <!-- LOGOUT -->
+
+                <form
+                    method="POST"
+                    action="{% url 'logout' %}"
+                    class="nav-logout-form"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="nav-logout"
+                    >
+                        Logout
+                    </button>
+
+                </form>
+
+
+            {% else %}
+
+
+                <!-- LOGIN -->
+
+                <a
+                    href="{% url 'login' %}"
+                    class="nav-login"
+                >
+                    Login
+                </a>
+
+
+                <!-- REGISTER -->
+
+                <a
+                    href="{% url 'register' %}"
+                    class="nav-register"
+                >
+                    Register
+                </a>
+
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     DJANGO MESSAGES
+========================================================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+        <div class="message">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+
+<!-- =========================================================
+     PAGE CONTENT
+========================================================= -->
+
+{% block content %}
+
+{% endblock %}
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="footer-container">
+
+
+        <!-- COMPANY -->
+
+        <div>
+
+            <h3>
+                Reddy's Real Estate
+            </h3>
+
+            <p>
+                Find your dream property with
+                trusted real-estate services.
+            </p>
+
+        </div>
+
+
+        <!-- QUICK LINKS -->
+
+        <div>
+
+            <h4>
+                Quick Links
+            </h4>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'properties' %}">
+                Properties
+            </a>
+
+            <a href="{% url 'contact' %}">
+                Contact
+            </a>
+
+        </div>
+
+
+        <!-- SERVICES -->
+
+        <div>
+
+            <h4>
+                Services
+            </h4>
+
+            <p>
+                Buy Property
+            </p>
+
+            <p>
+                Rent Property
+            </p>
+
+            <p>
+                Sell Property
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- COPYRIGHT -->
+
+    <div class="copyright">
+
+        © 2026 Reddy's Real Estate.
+        All rights reserved.
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

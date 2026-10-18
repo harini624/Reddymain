@@ -1,0 +1,813 @@
+
+/* =========================================================
+   REDDY'S REAL ESTATE
+   Complete Cinematic Stylesheet
+   File: static/css/cinematic.css
+
+   Palette: Forest Green, Cream, Gold
+   ========================================================= */
+
+:root {
+    --re-green: #102b24;
+    --re-green-light: #194438;
+    --re-gold: #e8c47b;
+    --re-cream: #f8f5ed;
+    --re-white: #ffffff;
+    --re-text: #26342e;
+    --re-muted: #6c7771;
+    --re-border: rgba(232, 196, 123, 0.28);
+    --re-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    --re-radius: 14px;
+}
+
+/* ---------------- GLOBAL EFFECTS ---------------- */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+.cinematic-page,
+.cinematic-page *,
+.cinematic-page *::before,
+.cinematic-page *::after {
+    box-sizing: border-box;
+}
+
+.cinematic-page {
+    color: var(--re-text);
+    overflow-wrap: anywhere;
+}
+
+.cinematic-page img {
+    max-width: 100%;
+}
+
+.cinematic-page a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.cinematic-page .re-container {
+    width: min(1200px, calc(100% - 40px));
+    margin-inline: auto;
+}
+
+/* ---------------- HERO BACKGROUND IMAGE ---------------- */
+
+.re-hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 680px;
+    min-height: min(760px, 82svh);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    color: var(--re-white);
+    background-color: var(--re-green);
+
+    /* Place luxury-home.jpg in static/images/ */
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(5, 23, 18, 0.92) 0%,
+            rgba(5, 23, 18, 0.76) 36%,
+            rgba(5, 23, 18, 0.25) 72%,
+            rgba(5, 23, 18, 0.15) 100%
+        ),
+        url("../images/luxury-home.jpg");
+
+    background-position: center, center 55%;
+    background-size: cover, cover;
+    background-repeat: no-repeat;
+}
+
+/* Gentle animated glow over the background */
+.re-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+        120deg,
+        transparent 20%,
+        rgba(232, 196, 123, 0.09) 50%,
+        transparent 75%
+    );
+    background-size: 220% 100%;
+    animation: re-light-sweep 12s ease-in-out infinite;
+}
+
+.re-hero-content {
+    width: min(780px, 100%);
+    padding-block: 85px 65px;
+    animation: re-hero-enter 1s ease-out both;
+}
+
+.re-eyebrow {
+    margin: 0 0 17px;
+    color: var(--re-gold);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.23em;
+    text-transform: uppercase;
+}
+
+.re-hero-title {
+    max-width: 800px;
+    margin: 0 0 22px;
+    color: var(--re-white);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.7rem, 6.5vw, 5.5rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+}
+
+.re-hero-title span {
+    display: block;
+    color: var(--re-gold);
+}
+
+.re-hero-description {
+    max-width: 580px;
+    margin: 0 0 30px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.85;
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+.re-button {
+    min-height: 48px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 23px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: var(--re-gold);
+    color: var(--re-green);
+    font: inherit;
+    font-weight: 750;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.re-button:hover {
+    transform: translateY(-3px);
+    background: #f3d99f;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.re-button-outline {
+    border-color: var(--re-gold);
+    background: transparent;
+    color: var(--re-gold);
+}
+
+.re-button-outline:hover {
+    background: var(--re-gold);
+    color: var(--re-green);
+}
+
+.re-button:focus-visible,
+.re-search input:focus-visible,
+.re-search select:focus-visible {
+    outline: 3px solid var(--re-gold);
+    outline-offset: 4px;
+}
+
+/* ---------------- PROPERTY SEARCH ---------------- */
+
+.re-search {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    align-items: end;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.97);
+    color: var(--re-text);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.re-search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    padding: 5px 12px;
+}
+
+.re-search-field label {
+    color: var(--re-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.re-search-field input,
+.re-search-field select {
+    width: 100%;
+    min-width: 0;
+    padding: 7px 0;
+    border: 0;
+    background: transparent;
+    color: var(--re-text);
+    font: inherit;
+}
+
+.re-search-field input:focus,
+.re-search-field select:focus {
+    outline-offset: 3px;
+}
+
+/* ---------------- TRUST FEATURES ---------------- */
+
+.re-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 28px;
+    margin-top: 26px;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.88rem;
+}
+
+.re-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.re-trust-item span {
+    color: var(--re-gold);
+    font-size: 1.1rem;
+}
+
+/* ---------------- SECTION HEADINGS ---------------- */
+
+.re-section {
+    padding-block: 75px;
+    background: var(--re-cream);
+}
+
+.re-section-dark {
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(34, 78, 62, 0.45),
+            transparent 70%
+        ),
+        var(--re-green);
+    color: var(--re-white);
+}
+
+.re-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+.re-section-title {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.re-section-subtitle {
+    max-width: 650px;
+    margin: 12px 0 0;
+    color: var(--re-muted);
+    line-height: 1.8;
+}
+
+.re-section-dark .re-section-subtitle {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------------- BENEFITS STRIP ---------------- */
+
+.re-benefits {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    padding-block: 35px;
+    background: #0b211b;
+    color: var(--re-white);
+}
+
+.re-benefit {
+    padding: 18px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.re-benefit:last-child {
+    border-right: 0;
+}
+
+.re-benefit-icon {
+    display: inline-block;
+    margin-bottom: 13px;
+    color: var(--re-gold);
+    font-size: 2rem;
+}
+
+.re-benefit h3 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+}
+
+.re-benefit p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.7;
+}
+
+/* ---------------- PROPERTY CARDS ---------------- */
+
+.re-property-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.re-property-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(16, 43, 36, 0.12);
+    border-radius: var(--re-radius);
+    background: var(--re-white);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.re-section-dark .re-property-card {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(5, 25, 20, 0.88);
+    color: var(--re-white);
+}
+
+.re-property-card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--re-shadow);
+}
+
+.re-property-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: #d8dfd8;
+}
+
+.re-property-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+
+    transition: transform 0.6s ease;
+}
+
+.re-property-card:hover .re-property-image img {
+    transform: scale(1.07);
+}
+
+.re-property-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 7px 12px;
+    border-radius: 30px;
+    background: rgba(10, 35, 28, 0.88);
+    color: var(--re-white);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.re-property-body {
+    padding: 20px;
+}
+
+.re-property-price {
+    margin: 0 0 9px;
+    color: #96702f;
+    font-size: 1.18rem;
+    font-weight: 800;
+}
+
+.re-property-title {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    line-height: 1.45;
+}
+
+.re-property-location {
+    margin: 0 0 17px;
+    color: var(--re-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.re-section-dark .re-property-location {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.re-property-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 17px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(128, 128, 128, 0.22);
+    font-size: 0.82rem;
+}
+
+.re-property-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.re-property-actions .re-button {
+    flex: 1;
+}
+
+/* ---------------- SCROLL REVEAL ---------------- */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------------- CINEMATIC VIDEO ---------------- */
+
+.re-video-section {
+    position: relative;
+    overflow: hidden;
+    padding-block: 60px;
+    background: #081a15;
+    color: var(--re-white);
+}
+
+.re-video {
+    display: block;
+    width: 100%;
+    max-height: 650px;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    border-radius: var(--re-radius);
+    background: #000;
+}
+
+/* ---------------- 3D PROPERTY VIEWER ---------------- */
+
+.re-3d-viewer {
+    display: block;
+    width: 100%;
+    height: clamp(320px, 55vw, 600px);
+    overflow: hidden;
+    border-radius: var(--re-radius);
+    background: #edf0ec;
+}
+
+/* ---------------- CALL TO ACTION ---------------- */
+
+.re-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: 85px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 25, 19, 0.92),
+            rgba(5, 25, 19, 0.38)
+        ),
+        url("../images/luxury-home.jpg") center 60% / cover no-repeat;
+    color: var(--re-white);
+}
+
+.re-cta-content {
+    max-width: 700px;
+}
+
+.re-cta-title {
+    margin: 0 0 20px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+/* ---------------- PAGE TRANSITIONS ---------------- */
+
+@keyframes re-hero-enter {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes re-light-sweep {
+    0%, 100% {
+        background-position: 100% 0;
+    }
+
+    50% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes re-page-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes re-page-exit {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+@supports (view-transition-name: root) {
+    @media (prefers-reduced-motion: no-preference) {
+        ::view-transition-old(root) {
+            animation: 140ms ease-out both re-page-exit;
+        }
+
+        ::view-transition-new(root) {
+            animation: 240ms ease-out both re-page-enter;
+        }
+    }
+}
+
+/* ---------------- MOBILE RESPONSIVENESS ---------------- */
+
+@media (max-width: 900px) {
+    .re-hero {
+        min-height: 600px;
+        min-height: 75svh;
+        background-position: center, 62% center;
+    }
+
+    .re-search {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .re-benefits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .re-benefit:nth-child(2) {
+        border-right: 0;
+    }
+
+    .re-property-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .cinematic-page .re-container {
+        width: calc(100% - 30px);
+    }
+
+    .re-hero {
+        min-height: 650px;
+        min-height: 78svh;
+        background-image:
+            linear-gradient(
+                0deg,
+                rgba(5, 23, 18, 0.93),
+                rgba(5, 23, 18, 0.45)
+            ),
+            url("../images/luxury-home.jpg");
+        background-position: center, 62% center;
+    }
+
+    .re-hero-content {
+        padding-block: 55px 35px;
+    }
+
+    .re-hero-title {
+        font-size: clamp(2.5rem, 11vw, 3.8rem);
+    }
+
+    .re-search {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .re-search-field {
+        padding: 8px;
+        border-bottom: 1px solid #e5e7e4;
+    }
+
+    .re-search .re-button {
+        width: 100%;
+    }
+
+    .re-trust-row {
+        gap: 12px 17px;
+        font-size: 0.8rem;
+    }
+
+    .re-section {
+        padding-block: 50px;
+    }
+
+    .re-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .re-benefits {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .re-benefit,
+    .re-benefit:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .re-benefit:last-child {
+        border-bottom: 0;
+    }
+
+    .re-property-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .re-cta {
+        padding-block: 55px;
+    }
+
+    .re-property-body {
+        padding: 16px;
+    }
+}
+
+/* ---------------- ACCESSIBILITY ---------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .re-hero-content,
+    .re-hero::after {
+        animation: none;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .re-property-card,
+    .re-property-image img,
+    .re-button {
+        transition: none;
+    }
+
+    .re-property-card:hover,
+    .re-button:hover {
+        transform: none;
+    }
+}
+
+/* Cinematic effects for the homepage hero only */
+
+.home-hero,
+.hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: #173f35;
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(9 31 25 / 82%),
+            rgb(9 31 25 / 45%)
+        ),
+        url("../images/luxury-home.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Background movement */
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero,
+    .hero-section {
+        animation: heroReveal 900ms ease both;
+    }
+
+    .home-hero h1,
+    .hero-section h1 {
+        animation: textReveal 800ms 150ms ease both;
+    }
+
+    .home-hero p,
+    .hero-section p {
+        animation: textReveal 800ms 300ms ease both;
+    }
+}
+
+@keyframes heroReveal {
+    from {
+        opacity: 0.75;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes textReveal {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile hero sizing */
+@media (max-width: 600px) {
+    .home-hero,
+    .hero-section {
+        background-position: center;
+        background-size: cover;
+    }
+}
+
+[data-reveal] {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    [data-reveal]:not(.is-visible) {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+            opacity 650ms ease,
+            transform 650ms ease;
+    }
+
+    [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

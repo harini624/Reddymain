@@ -1,0 +1,132 @@
+/* ===== Reddy's Real Estate: green, gold and cream theme ===== */
+:root {
+  --g-dark: #0b211b;
+  --g: #102b24;
+  --g-mid: #194438;
+  --gold: #e8c47b;
+  --gold-deep: #b58a43;
+  --cream: #f8f5ed;
+}
+
+body { background: var(--cream) !important; }
+
+/* ---------- Navbar ---------- */
+body .main-navbar {
+  background: #fbf8f0 !important;
+  border-bottom: 3px solid var(--gold) !important;
+  box-shadow: 0 4px 18px rgba(16, 43, 36, 0.08) !important;
+}
+body .main-navbar .nav-links a { color: var(--g) !important; font-weight: 600; }
+body .main-navbar .nav-links a:hover { color: var(--gold-deep) !important; }
+body .main-navbar .nav-login {
+  border: 1.5px solid var(--g) !important;
+  color: var(--g) !important;
+  background: transparent !important;
+}
+body .main-navbar .nav-login:hover {
+  background: var(--g) !important;
+  color: var(--gold) !important;
+}
+body .main-navbar .nav-register,
+body .main-navbar .nav-add-property {
+  background: var(--g) !important;
+  color: var(--gold) !important;
+  border-color: var(--g) !important;
+}
+body .main-navbar .nav-register:hover,
+body .main-navbar .nav-add-property:hover {
+  background: var(--g-mid) !important;
+}
+body .main-navbar .nav-logout {
+  background: transparent !important;
+  border: 1.5px solid var(--g) !important;
+  color: var(--g) !important;
+}
+/* ---------- Hero: stronger green overlay ---------- */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(11,33,27,.78), rgba(16,43,36,.35));
+}
+body .search-btn {
+  background: var(--gold) !important;
+  color: var(--g) !important;
+}
+body .search-panel { background: var(--cream) !important; }
+
+/* ---------- Section headings ---------- */
+body .section-header span { color: var(--gold-deep) !important; }
+body .section-header h2 { color: var(--g) !important; }
+
+/* ---------- Categories (cream) ---------- */
+body .categories { background: var(--cream) !important; }
+body .category {
+  background: #fff !important;
+  border: 1px solid rgba(181,138,67,.35) !important;
+}
+body .category:hover { border-color: var(--gold-deep) !important; }
+body .category-icon { background: #e2ece6 !important; }
+
+/* ---------- Featured (dark green) ---------- */
+body .featured {
+  background: radial-gradient(ellipse at top, #1f4a3d, var(--g) 70%) !important;
+}
+body .featured .section-header h2 { color: #fff !important; }
+body .featured .section-header p { color: rgba(255,255,255,.75) !important; }
+body .featured .section-header span { color: var(--gold) !important; }
+body .property-card { border: 1px solid rgba(232,196,123,.4) !important; }
+body .property-bottom a { color: var(--gold-deep) !important; }
+body .outline-btn {
+  background: transparent !important;
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+body .outline-btn:hover {
+  background: var(--gold) !important;
+  color: var(--g) !important;
+}
+
+/* ---------- Why us (cream) ---------- */
+body .why-us { background: var(--cream) !important; }
+body .why-card {
+  background: #fff !important;
+  border: 1px solid rgba(181,138,67,.35) !important;
+}
+body .why-icon {
+  background: var(--g) !important;
+  color: var(--gold) !important;
+}
+
+/* ---------- Footer ---------- */
+body footer {
+  background: var(--g-dark) !important;
+  color: rgba(255,255,255,.75) !important;
+  border-top: 3px solid var(--gold) !important;
+}
+body footer h3,
+body footer h4 { color: var(--gold) !important; }
+body footer a { color: var(--cream) !important; }
+body footer a:hover { color: var(--gold) !important; }
+body footer .copyright { color: rgba(255,255,255,.55) !important; }
+/* ---------- Fix: button text colours in the navbar ---------- */
+body .main-navbar .nav-links a.nav-register,
+body .main-navbar .nav-links a.nav-add-property {
+  background: var(--g) !important;
+  color: var(--gold) !important;
+  border-color: var(--g) !important;
+}
+body .main-navbar .nav-links a.nav-register:hover,
+body .main-navbar .nav-links a.nav-add-property:hover {
+  background: var(--g-mid) !important;
+  color: #fff !important;
+}
+body .main-navbar .nav-links a.nav-login {
+  color: var(--g) !important;
+}
+body .main-navbar .nav-links a.nav-login:hover {
+  background: var(--g) !important;
+  color: var(--gold) !important;
+}

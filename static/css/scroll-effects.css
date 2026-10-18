@@ -1,0 +1,143 @@
+/* ---------- Scroll progress bar ---------- */
+.re-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #e8c47b, #f3d99f);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ---------- Navbar shadow on scroll ---------- */
+.main-navbar {
+  transition: box-shadow 0.3s ease;
+}
+.main-navbar.is-scrolled {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Back to top button ---------- */
+.re-back-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: #e8c47b;
+  color: #102b24;
+  font-size: 1.3rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 20px;
+  transition: opacity 0.3s ease, translate 0.3s ease, visibility 0.3s;
+  z-index: 9998;
+}
+.re-back-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+}
+.re-back-top:hover {
+  background: #f3d99f;
+}
+
+/* ---------- Scroll reveal (overrides responsive.css) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.re-scroll-animations-ready .re-scroll-animate {
+    will-change: opacity, translate, scale;
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      translate 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      scale 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+      filter 0.8s ease,
+      transform 0.35s ease;
+  }
+
+  /* Hidden state (default: fade up) */
+  html.re-scroll-animations-ready .re-scroll-animate:not(.is-in-view) {
+    opacity: 0;
+    transform: none;
+    translate: 0 55px;
+    filter: blur(4px);
+  }
+  html.re-scroll-animations-ready .re-scroll-animate[data-anim="left"]:not(.is-in-view) {
+    translate: -80px 0;
+  }
+  html.re-scroll-animations-ready .re-scroll-animate[data-anim="right"]:not(.is-in-view) {
+    translate: 80px 0;
+  }
+  html.re-scroll-animations-ready .re-scroll-animate[data-anim="zoom"]:not(.is-in-view) {
+    translate: 0 25px;
+    scale: 0.88;
+  }
+
+  /* Visible state, with stagger delay */
+  html.re-scroll-animations-ready .re-scroll-animate.is-in-view {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    filter: none;
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--re-delay, 0ms),
+      translate 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--re-delay, 0ms),
+      scale 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) var(--re-delay, 0ms),
+      filter 0.8s ease var(--re-delay, 0ms),
+      transform 0.35s ease 0ms;
+  }
+}
+
+/* Gentler movement on phones */
+@media (max-width: 600px) {
+  html.re-scroll-animations-ready .re-scroll-animate[data-anim]:not(.is-in-view) {
+    translate: 0 30px;
+    scale: 1;
+  }
+}
+/* Stop slide-in animations from creating a sideways scrollbar */
+html, body {
+  overflow-x: clip;
+}
+
+/* No stagger delay on phone carousels, so slides appear instantly */
+/* ---------- Mobile carousel fix ---------- */
+/* ---------- Mobile performance fix ---------- */
+/* ---------- Mobile: no waiting, no sliding ---------- */
+@media (max-width: 600px) {
+  /* Carousel blocks are always visible */
+  .re-vp-animate,
+  .re-vp-animate:not(.re-vp-visible) {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+
+  /* Everything else: a very quick fade, no sliding */
+  html.re-scroll-animations-ready .re-scroll-animate:not(.is-in-view) {
+    translate: none !important;
+    opacity: 0.01;
+  }
+  html.re-scroll-animations-ready .re-scroll-animate,
+  html.re-scroll-animations-ready .re-scroll-animate.is-in-view {
+    transition: opacity 0.2s ease !important;
+  }
+}
+/* ---------- Mobile: appear once, then stay visible ---------- */
+@media (max-width: 900px) {
+  html.re-scroll-animations-ready .re-scroll-animate.re-seen,
+  .re-vp-animate.re-seen,
+  html.re-scroll-animations-ready .re-home-carousel-active .re-scroll-animate {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: 1 !important;
+    filter: none !important;
+  }
+}

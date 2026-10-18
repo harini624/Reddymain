@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Properties | Reddy's Real Estate
+{% endblock %}
+
+
+{% block content %}
+
+<section class="listing-page">
+
+    <div class="listing-heading">
+
+        <span>
+            EXPLORE PROPERTIES
+        </span>
+
+        <h1>
+            Find your perfect property
+        </h1>
+
+        <p>
+            Browse properties available for sale
+            and rent.
+        </p>
+
+    </div>
+
+
+    <form
+        method="GET"
+        class="filter-box"
+    >
+
+        <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search city, locality..."
+        >
+
+
+        <select name="purpose">
+
+            <option value="">
+                Buy / Rent
+            </option>
+
+            <option
+                value="Sale"
+                {% if purpose == 'Sale' %}selected{% endif %}
+            >
+                Buy
+            </option>
+
+            <option
+                value="Rent"
+                {% if purpose == 'Rent' %}selected{% endif %}
+            >
+                Rent
+            </option>
+
+        </select>
+
+
+        <select name="type">
+
+            <option value="">
+                Property Type
+            </option>
+
+            <option value="Apartment">
+                Apartment
+            </option>
+
+            <option value="Villa">
+                Villa
+            </option>
+
+            <option value="House">
+                Independent House
+            </option>
+
+            <option value="Plot">
+                Plot
+            </option>
+
+            <option value="Commercial">
+                Commercial
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <div class="property-grid">
+
+        {% for property in properties %}
+
+        <div class="property-card">
+
+            {% if property.image %}
+
+                <img
+                    src="{{ property.image.url }}"
+                    alt="{{ property.title }}"
+                >
+
+            {% else %}
+
+                <div class="property-placeholder">
+                    🏠
+                </div>
+
+            {% endif %}
+
+
+            <div class="property-card-body">
+
+                <span class="property-purpose">
+                    {{ property.purpose }}
+                </span>
+
+                <h3>
+                    {{ property.title }}
+                </h3>
+
+                <p class="location">
+                    📍 {{ property.location }},
+                    {{ property.city }}
+                </p>
+
+                <div class="property-info">
+
+                    <span>
+                        🛏 {{ property.bedrooms }}
+                    </span>
+
+                    <span>
+                        🛁 {{ property.bathrooms }}
+                    </span>
+
+                    <span>
+                        📐 {{ property.area }} sqft
+                    </span>
+
+                </div>
+
+
+                <div class="property-bottom">
+
+                    <strong>
+                        ₹ {{ property.price }}
+                    </strong>
+
+                    <a
+                        href="{% url 'property_detail' property.id %}"
+                    >
+                        Details →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-state">
+
+            <h2>
+                No properties found
+            </h2>
+
+            <p>
+                Try another location or filter.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

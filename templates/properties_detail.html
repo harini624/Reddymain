@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ property.title }} | Reddy's Real Estate
+{% endblock %}
+
+
+{% block content %}
+
+<section class="detail-page">
+
+    <div class="detail-container">
+
+        <div class="detail-image">
+
+            {% if property.image %}
+
+                <img
+                    src="{{ property.image.url }}"
+                    alt="{{ property.title }}"
+                >
+
+            {% else %}
+
+                <div class="large-placeholder">
+                    🏠
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="detail-content">
+
+            <span class="property-purpose">
+                {{ property.purpose }}
+            </span>
+
+            <h1>
+                {{ property.title }}
+            </h1>
+
+            <p class="detail-location">
+                📍 {{ property.location }},
+                {{ property.city }}
+            </p>
+
+
+            <div class="detail-price">
+
+                ₹ {{ property.price }}
+
+            </div>
+
+
+            <div class="detail-stats">
+
+                <div>
+                    <strong>
+                        {{ property.bedrooms }}
+                    </strong>
+                    <span>
+                        Bedrooms
+                    </span>
+                </div>
+
+                <div>
+                    <strong>
+                        {{ property.bathrooms }}
+                    </strong>
+                    <span>
+                        Bathrooms
+                    </span>
+                </div>
+
+                <div>
+                    <strong>
+                        {{ property.area }}
+                    </strong>
+                    <span>
+                        Sq.ft
+                    </span>
+                </div>
+
+            </div>
+
+
+            <h2>
+                Property Description
+            </h2>
+
+            <p class="description">
+                {{ property.description }}
+            </p>
+
+
+            <div class="owner-box">
+
+                <div class="owner-avatar">
+                    {{ property.owner.first_name|first|default:"R" }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ property.owner.get_full_name|default:property.owner.username }}
+                    </strong>
+
+                    <p>
+                        Property Owner
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-actions">
+
+                {% if user.is_authenticated %}
+
+                    <a
+                        href="{% url 'save_property' property.id %}"
+                        class="outline-btn"
+                    >
+
+                        {% if is_saved %}
+                            ♥ Saved
+                        {% else %}
+                            ♡ Save Property
+                        {% endif %}
+
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="outline-btn"
+                    >
+                        Login to Save
+                    </a>
+
+                {% endif %}
+
+                <a
+                    href="{% url 'contact' %}"
+                    class="primary-btn"
+                >
+                    Contact Owner
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
