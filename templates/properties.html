@@ -43,14 +43,7 @@ Properties | Reddy's Real Estate
         <select name="purpose">
 
             <option value="">
-                Buy / Rent
-            </option>
-
-            <option
-                value="Sale"
-                {% if purpose == 'Sale' %}selected{% endif %}
-            >
-                Buy
+                Lease / Rent
             </option>
 
             <option
@@ -59,6 +52,12 @@ Properties | Reddy's Real Estate
             >
                 Rent
             </option>
+            <option
+                value="Lease"
+                {% if purpose == 'Lease' %}selected{% endif %}
+            >
+                Lease
+            </option>
 
         </select>
 
@@ -66,29 +65,20 @@ Properties | Reddy's Real Estate
         <select name="type">
 
             <option value="">
-                Property Type
+                Furnishing
             </option>
 
-            <option value="Apartment">
-                Apartment
+            <option value="Fully Furnished">
+                Fully Furnished
             </option>
 
-            <option value="Villa">
-                Villa
+            <option value="Semi Furnished">
+                Semi Furnished
             </option>
 
-            <option value="House">
-                Independent House
+            <option value="UnFurnished">
+                UnFurnished
             </option>
-
-            <option value="Plot">
-                Plot
-            </option>
-
-            <option value="Commercial">
-                Commercial
-            </option>
-
         </select>
 
 
@@ -105,21 +95,52 @@ Properties | Reddy's Real Estate
 
         <div class="property-card">
 
-            {% if property.image %}
+            
+                <div class="property-card-image-container">
 
-                <img
-                    src="{{ property.image.url }}"
-                    alt="{{ property.title }}"
-                >
+                    {% with gallery_image=property.images.first %}
 
-            {% else %}
+                        {% if property.image %}
+                            <img
+                                src="{{ property.image.url }}"
+                                alt="{{ property.title|default:property.furnished }}"
+                                class="property-card-image"
+                                loading="lazy"
+                            >
 
-                <div class="property-placeholder">
-                    🏠
+                        {% elif property.house_image %}
+                            <img
+                                src="{{ property.house_image.url }}"
+                                alt="{{ property.title|default:property.furnished }}"
+                                class="property-card-image"
+                                loading="lazy"
+                            >
+
+                        {% elif property.hall_image %}
+                            <img
+                                src="{{ property.hall_image.url }}"
+                                alt="{{ property.title|default:property.furnished }}"
+                                class="property-card-image"
+                                loading="lazy"
+                            >
+
+                        {% elif gallery_image and gallery_image.image %}
+                            <img
+                                src="{{ gallery_image.image.url }}"
+                                alt="{{ gallery_image.image_type|default:'Property' }}"
+                                class="property-card-image"
+                                loading="lazy"
+                            >
+
+                        {% else %}
+                            <div class="property-placeholder">
+                                🏠
+                            </div>
+                        {% endif %}
+
+                    {% endwith %}
+
                 </div>
-
-            {% endif %}
-
 
             <div class="property-card-body">
 

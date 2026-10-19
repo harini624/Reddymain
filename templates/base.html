@@ -89,21 +89,7 @@
             <a href="{% url 'properties' %}">
                 Properties
             </a>
-
-
-            <!-- BUY -->
-
-            <a href="{% url 'properties' %}?purpose=Sale">
-                Buy
-            </a>
-
-
-            <!-- RENT -->
-
-            <a href="{% url 'properties' %}?purpose=Rent">
-                Rent
-            </a>
-
+            
             <!-- USER LOGIN STATUS -->
 
             {% if user.is_authenticated %}

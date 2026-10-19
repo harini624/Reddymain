@@ -62,6 +62,20 @@ urlpatterns = [
         views.receive_property,
         name="receive_property"
     ),
-    
+    path(
+        "api/update-property-status/",
+        views.update_property_status,
+        name="update_property_status"
+   ),
+   path(
+    'post-property/',
+    views.post_property,
+    name='post_property'
+),
+   path(
+       'save-property/',
+       views.save_property,
+       name='save_property'
+   ), 
 ]
 

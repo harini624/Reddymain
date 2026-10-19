@@ -10,9 +10,10 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
-from .models import Properties,PropertyImage
+from .models import Properties,PropertyImage,SavedProperty
 from decimal import Decimal, InvalidOperation
 from django.db import transaction
+
 
 
 def home(request):
@@ -20,13 +21,19 @@ def home(request):
         source_property_id__isnull=False,
         published=True,
         available=True
-    )
+    ).order_by('-id')
 
+    # Show featured received properties first.
     featured_properties = received_properties.filter(
         is_featured=True
     )[:6]
 
-    latest_properties = received_properties.order_by('-id')[:6]
+    # If no properties are marked featured, show the latest
+    # received properties instead.
+    if not featured_properties.exists():
+        featured_properties = received_properties[:6]
+
+    latest_properties = received_properties[:6]
 
     return render(
         request,
@@ -35,8 +42,7 @@ def home(request):
             'featured_properties': featured_properties,
             'latest_properties': latest_properties,
         }
-    )
-
+)
 
 def register_view(request):
 
@@ -161,7 +167,6 @@ def properties(request):
         }
     )
 
-
 def property_detail(request, pk):
     property_obj = get_object_or_404(
         Properties,
@@ -170,6 +175,16 @@ def property_detail(request, pk):
         published=True,
         available=True
     )
+
+    print("Property ID:", property_obj.id)
+    print("Source Property ID:", property_obj.source_property_id)
+    print("Gallery image count:", property_obj.images.count())
+
+    for image in property_obj.images.all():
+        print(
+            "Image type:", image.image_type,
+            "| Image URL:", image.image.url if image.image else "No image"
+        )
 
     return render(
         request,
@@ -257,14 +272,18 @@ def save_property(request, pk):
         pk=pk
     )
 
+
 @login_required
 def dashboard(request):
+    saved_properties = SavedProperty.objects.filter(
+        user=request.user
+    ).select_related('property')
+
     return render(
         request,
         'dashboard.html',
         {
-            'my_properties': Properties.objects.none(),
-            'saved_properties': Properties.objects.none(),
+            'saved_properties': saved_properties,
         }
     )
 
@@ -394,4 +413,66 @@ def receive_property(request):
         # Details are intentionally not exposed to the remote sender.
         return JsonResponse(
             {"error": "Property synchronization failed"}, status=500
+        )
+@csrf_exempt
+def update_property_status(request):
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "POST method required"},
+            status=405
+        )
+
+    token = getattr(settings, "RECEIVE_PROPERTY_API_TOKEN", "")
+
+    if (
+        not token
+        or request.headers.get("Authorization")
+        != "Bearer " + token
+    ):
+        return JsonResponse(
+            {"error": "Unauthorized"},
+            status=401
+        )
+
+    try:
+        source_id = int(request.POST.get("source_property_id", ""))
+
+        available_value = request.POST.get("available", "").lower()
+        published_value = request.POST.get("published", "").lower()
+
+        if available_value not in ("true", "false"):
+            return JsonResponse(
+                {"error": "Invalid availability status"},
+                status=400
+            )
+
+        if published_value not in ("true", "false"):
+            return JsonResponse(
+                {"error": "Invalid publishing status"},
+                status=400
+            )
+
+        property_obj = get_object_or_404(
+            Properties,
+            source_property_id=source_id
+        )
+
+        property_obj.available = available_value == "true"
+        property_obj.published = published_value == "true"
+
+        property_obj.save(
+            update_fields=["available", "published"]
+        )
+
+        return JsonResponse({
+            "success": True,
+            "property_id": property_obj.id,
+            "available": property_obj.available,
+            "published": property_obj.published
+        })
+
+    except (ValueError, TypeError):
+        return JsonResponse(
+            {"error": "Invalid property ID"},
+            status=400
         )

@@ -333,260 +333,275 @@ Dashboard | Reddy's Real Estate
             height: 190px;
         }
     }
+    
+/* =========================
+   SAVED PROPERTIES - MOBILE FIX
+   Preserves existing animations
+========================= */
+
+.dashboard-page,
+.dashboard-container,
+.dashboard-section,
+.property-grid {
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.dashboard-section {
+    display: block;
+    width: 100%;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 24px;
+}
+
+.property-card {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    height: auto;
+    visibility: visible;
+    opacity: 1;
+}
+
+.property-card img {
+    display: block;
+    max-width: 100%;
+}
+
+@media (max-width: 750px) {
+    .dashboard-page {
+        padding: 25px 14px 45px;
+        overflow-x: hidden;
+    }
+
+    .dashboard-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .dashboard-section {
+        margin-top: 30px;
+    }
+
+    .property-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .property-card {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .property-card-body {
+        padding: 18px;
+    }
+
+    .property-card > img,
+    .property-card > .property-placeholder {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+    }
+
+    .property-bottom {
+        flex-wrap: wrap;
+    }
+
+    .property-bottom strong {
+        overflow-wrap: anywhere;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Mobile saved properties slider */
+@media (max-width: 750px) {
+
+    .dashboard-section {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .property-grid {
+        display: flex !important;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 16px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 8px 4px 20px;
+        box-sizing: border-box;
+
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .property-card {
+        flex: 0 0 85%;
+        width: 85%;
+        min-width: 0;
+        max-width: 85%;
+        box-sizing: border-box;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        overflow: hidden;
+    }
+
+    .property-card > img,
+    .property-card > .property-placeholder {
+        display: block;
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+    }
+
+    .property-card-body {
+        min-width: 0;
+        padding: 18px;
+        overflow-wrap: anywhere;
+    }
+
+    .property-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .property-grid::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .property-grid::-webkit-scrollbar-thumb {
+        background: #b8c9bd;
+        border-radius: 10px;
+    }
+
+    .property-grid::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
 </style>
 
 
 <section class="dashboard-page">
-
     <div class="dashboard-container">
 
-        <!-- =========================
-             WELCOME SECTION
-        ========================= -->
-
+        <!-- WELCOME SECTION -->
         <div class="dashboard-welcome">
-
             <span>MY ACCOUNT</span>
 
             <h1>
-                Hello,
-                {{ user.first_name|default:user.username }} 👋
+                Hello, {{ user.first_name|default:user.username }} 👋
             </h1>
 
             <p>
-                Manage your properties and saved listings from your dashboard.
+                Explore and manage your saved properties from your dashboard.
             </p>
-
         </div>
 
-
-        <!-- =========================
-             STATISTICS
-        ========================= -->
-
+        <!-- SAVED PROPERTIES COUNT -->
         <div class="dashboard-stats">
-
             <div>
-
                 <div>
-
-                    <strong>
-                        {{ my_properties.count }}
-                    </strong>
-
-                    <span>
-                        My Properties
-                    </span>
-
+                    <strong>{{ saved_properties|length }}</strong>
+                    <span>Saved Properties</span>
                 </div>
-
             </div>
-
-
-            <div>
-
-                <div>
-
-                    <strong>
-                        {{ saved_properties.count }}
-                    </strong>
-
-                    <span>
-                        Saved Properties
-                    </span>
-
-                </div>
-
-            </div>
-
         </div>
 
-
-        <!-- =========================
-             MY PROPERTIES
-        ========================= -->
-
+        <!-- SAVED PROPERTIES -->
         <div class="dashboard-section">
-
-            <h2>
-                My Properties
-            </h2>
+            <h2>My Saved Properties</h2>
 
             <div class="property-grid">
 
-                {% for property in my_properties %}
+                {% for saved in saved_properties %}
+                    {% with property=saved.property %}
 
-                <div class="property-card">
+                        <div class="property-card">
 
-                    {% if property.image %}
-
-                        <img
-                            src="{{ property.image.url }}"
-                            alt="{{ property.title }}"
-                        >
-
-                    {% else %}
-
-                        <div class="property-placeholder">
-                            🏠
-                        </div>
-
-                    {% endif %}
-
-
-                    <div class="property-card-body">
-
-                        <span class="property-purpose">
-                            {{ property.purpose }}
-                        </span>
-
-                        <h3>
-                            {{ property.title }}
-                        </h3>
-
-                        <p>
-                            📍 {{ property.city }}
-                        </p>
-
-
-                        <div class="property-bottom">
-
-                            <strong>
-                                ₹ {{ property.price }}
-                            </strong>
-
-                            <form
-                                method="POST"
-                                action="{% url 'delete_property' property.id %}"
-                            >
-
-                                {% csrf_token %}
-
-                                <button
-                                    class="delete-btn"
-                                    type="submit"
+                            {% if property.house_image %}
+                                <img
+                                    src="{{ property.house_image.url }}"
+                                    alt="Property image"
                                 >
-                                    Delete
-                                </button>
+                            {% elif property.hall_image %}
+                                <img
+                                    src="{{ property.hall_image.url }}"
+                                    alt="Property image"
+                                >
+                            {% elif property.image %}
+                                <img
+                                    src="{{ property.image.url }}"
+                                    alt="Property image"
+                                >
+                            {% else %}
+                                <div class="property-placeholder">
+                                    🏡
+                                </div>
+                            {% endif %}
 
-                            </form>
+                            <div class="property-card-body">
 
+                                <span class="property-purpose">
+                                    {{ property.purpose|default:"Property" }}
+                                </span>
+
+                                <h3>
+                                    {{ property.title|default:property.location }}
+                                </h3>
+
+                                <p>{{ property.location }}</p>
+
+                                <div class="property-bottom">
+                                    <strong>₹{{ property.price }}</strong>
+
+                                    <a href="{% url 'property_detail' property.pk %}">
+                                        View Details
+                                    </a>
+                                </div>
+
+                            </div>
                         </div>
 
-                    </div>
-
-                </div>
+                    {% endwith %}
 
                 {% empty %}
 
-                <div class="empty-state">
+                    <div class="empty-state">
+                        <h3>No saved properties yet.</h3>
 
-                    <h3>
-                        You haven't posted any property yet.
-                    </h3>
-
-                    <a
-                        href="{% url 'post_property' %}"
-                        class="primary-btn"
-                    >
-                        Post Your First Property
-                    </a>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             SAVED PROPERTIES
-        ========================= -->
-
-        <div class="dashboard-section">
-
-            <h2>
-                Saved Properties
-            </h2>
-
-            <div class="property-grid">
-
-                {% for property in saved_properties %}
-
-                <div class="property-card">
-
-                    {% if property.image %}
-
-                        <img
-                            src="{{ property.image.url }}"
-                            alt="{{ property.title }}"
+                        <a
+                            href="{% url 'properties' %}"
+                            class="primary-btn"
                         >
-
-                    {% else %}
-
-                        <div class="property-placeholder">
-                            🏡
-                        </div>
-
-                    {% endif %}
-
-
-                    <div class="property-card-body">
-
-                        <h3>
-                            {{ property.title }}
-                        </h3>
-
-                        <p>
-                            📍 {{ property.city }}
-                        </p>
-
-
-                        <div class="property-bottom">
-
-                            <strong>
-                                ₹ {{ property.price }}
-                            </strong>
-
-                            <a
-                                href="{% url 'property_detail' property.id %}"
-                            >
-                                View →
-                            </a>
-
-                        </div>
-
+                            Explore Properties
+                        </a>
                     </div>
-
-                </div>
-
-                {% empty %}
-
-                <div class="empty-state">
-
-                    <h3>
-                        No saved properties yet.
-                    </h3>
-
-                    <a
-                        href="{% url 'properties' %}"
-                        class="primary-btn"
-                    >
-                        Explore Properties
-                    </a>
-
-                </div>
 
                 {% endfor %}
 
             </div>
-
         </div>
 
     </div>
-
 </section>
 
 {% endblock %}

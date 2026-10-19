@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Properties(models.Model):
@@ -76,3 +77,16 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"{self.property} - {self.image_type}"
+    
+class SavedProperty(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    property = models.ForeignKey(
+        'Properties',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = ('user', 'property')

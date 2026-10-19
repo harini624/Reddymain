@@ -122,6 +122,7 @@ STATICFILES_DIRS=[STATIC_DIR]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+
 LOGIN_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -138,8 +139,9 @@ CONTACT_EMAILS = [
     'boxfix084@gmail.com',
     'jasminearange347@gmail.com',
 ]
-# Base URL of the receiving website
-REAL_ESTATE_RECEIVER_URL = "http://127.0.0.1:8000"
 
-# Token used to authenticate incoming property data
-RECEIVE_PROPERTY_API_TOKEN = "replace-with-a-long-random-secret"
+REAL_ESTATE_RECEIVER_URL = "http://127.0.0.1:8000"
+RECEIVE_PROPERTY_API_TOKEN = "your-same-long-random-secret"
+CLIENT_WEBSITE_STATUS_API_URL = (
+    "http://127.0.0.1:8001/api/update-property-status/"
+)
